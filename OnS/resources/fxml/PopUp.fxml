@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.PopUpController">
+   <children>
+      <ImageView fitHeight="300.0" fitWidth="307.0" layoutX="50.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/CountDown.jpg" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="116.0" layoutY="24.0" prefHeight="18.0" prefWidth="177.0" text="EZ Shop Gaming Corner" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="hourNumberLabel" alignment="CENTER" layoutX="116.0" layoutY="186.0" prefHeight="54.0" prefWidth="34.0" text="12" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="minuteNumberLabel" alignment="CENTER" layoutX="200.0" layoutY="186.0" prefHeight="54.0" prefWidth="34.0" text="21" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="hourLabel" alignment="CENTER" layoutX="109.0" layoutY="240.0" prefHeight="20.0" prefWidth="47.0" text="Hours" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="minuteLabel" layoutX="192.0" layoutY="240.0" prefHeight="20.0" prefWidth="57.0" text="Minutes" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="secondNumberLabel" alignment="CENTER" layoutX="269.0" layoutY="186.0" prefHeight="54.0" prefWidth="34.0" text="56" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="secondLabel" layoutX="270.0" layoutY="240.0" prefHeight="20.0" prefWidth="58.0" text="Seconds" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="168.0" layoutY="196.0" prefHeight="39.0" prefWidth="18.0" text=":" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="251.0" layoutY="193.0" prefHeight="39.0" prefWidth="17.0" text=":" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="crossButton" layoutX="350.0" layoutY="4.0" mnemonicParsing="false" onAction="#shutDown" style="-fx-background-color: transparent;" text="x" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

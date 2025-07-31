@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0" styleClass="main-container" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.CollectionsController">
+    <center>
+        <SplitPane dividerPositions="0.2" prefHeight="160.0" prefWidth="200.0" styleClass="main-container">
+            <items>
+                <!-- Left Panel - Filters -->
+                <VBox spacing="15.0" styleClass="filter-panel" minWidth="180.0" prefWidth="180.0">
+                    <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                    </padding>
+                    <children>
+                        <!-- Title -->
+                        <Label text="Filter Products" styleClass="filter-title">
+                            <font>
+                                <Font name="Arial Rounded MT Bold" size="16.0" />
+                            </font>
+                        </Label>
+                        
+                        <!-- Category Selection -->
+                        <VBox spacing="5.0">
+                            <Label text="Categories" styleClass="filter-section-title" />
+                            <VBox fx:id="categoryContainer" spacing="8.0">
+                                <!-- Category checkboxes will be added here dynamically -->
+                            </VBox>
+                        </VBox>
+
+                        <Separator />
+                        
+                        <!-- Sorting Options -->
+                        <VBox spacing="5.0">
+                            <Label text="Sort By" styleClass="filter-section-title" />
+                            <ComboBox fx:id="sortingComboBox" prefWidth="150.0" />
+                        </VBox>
+
+                        <Separator />
+                        
+                        <!-- Price Range -->
+                        <VBox spacing="5.0">
+                            <Label text="Price Range" styleClass="filter-section-title" />
+                            <HBox alignment="CENTER" spacing="5.0">
+                                <Label fx:id="minPriceLabel" text="$0" />
+                                <Label text=" - " />
+                                <Label fx:id="maxPriceLabel" text="$1000" />
+                            </HBox>
+                            <Slider fx:id="minPriceSlider" />
+                            <Slider fx:id="maxPriceSlider" />
+                        </VBox>
+                        
+                        <Separator />
+                        
+                        <!-- Apply/Reset Buttons -->
+                        <HBox spacing="10.0">
+                            <Button fx:id="applyFilterButton" text="Apply Filters" styleClass="primary-action-button" onAction="#handleApplyFilters" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                            <Button fx:id="resetFilterButton" text="Reset" styleClass="secondary-action-button" onAction="#handleResetFilters" HBox.hgrow="ALWAYS" maxWidth="Infinity" />
+                        </HBox>
+                    </children>
+                </VBox>
+                
+                <!-- Right Panel - Products -->
+                <VBox>
+                    <children>
+                        <!-- Products Header -->
+                        <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="products-header">
+                            <padding>
+                                <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                            </padding>
+                            <Label fx:id="productsCountLabel" text="Showing all products" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button fx:id="backButton" text="← Back" styleClass="back-button" onAction="#handleBackButton" />
+                        </HBox>
+                        
+                        <!-- Products Grid -->
+                        <ScrollPane fx:id="productsScrollPane" fitToWidth="true" VBox.vgrow="ALWAYS">
+                            <GridPane fx:id="productsGrid" hgap="15.0" vgap="15.0">
+                                <padding>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                </padding>
+                            </GridPane>
+                        </ScrollPane>
+                    </children>
+                </VBox>
+            </items>
+        </SplitPane>
+    </center>
+</BorderPane>

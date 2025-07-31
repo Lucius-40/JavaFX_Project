@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane minHeight="500.0" minWidth="800.0" prefHeight="600.0" prefWidth="900.0" styleClass="main-container" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.HelloController">
+   <top>
+      <VBox styleClass="header-container" BorderPane.alignment="CENTER">
+         <children>
+            <!-- TOP NAVIGATION BAR -->
+            <HBox alignment="CENTER" spacing="15.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <!-- LOGO SECTION -->
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <VBox alignment="CENTER">
+                           <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" styleClass="logo">
+                              <image>
+                                 <Image url="@../images/Logo1.png" />
+                              </image>
+                           </ImageView>
+                           <Label styleClass="logo-text" text="ezShop">
+                              <font>
+                                 <Font name="Arial Rounded MT Bold" size="14.0" />
+                              </font>
+                           </Label>
+                        </VBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </HBox>
+                  
+                  <!-- SPACER FOR CENTERING -->
+                  <Region HBox.hgrow="ALWAYS" />
+                  
+                  <!-- CENTERED NAVIGATION BUTTONS -->
+                  <HBox alignment="CENTER" spacing="15.0">
+                     <children>
+                        <Button fx:id="homeButton" maxWidth="Infinity" minWidth="120.0" onAction="#loadHomePage" prefHeight="45.0" prefWidth="140.0" styleClass="nav-button" text="Home" HBox.hgrow="NEVER">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="collectionsButton" maxWidth="Infinity" minWidth="130.0" onAction="#loadCollectionsPage" prefHeight="45.0" prefWidth="150.0" styleClass="nav-button" text="Collections" HBox.hgrow="NEVER" visible = "false" managed = "false">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="aboutButton" maxWidth="Infinity" minWidth="120.0" onAction="#loadAboutPage" prefHeight="45.0" prefWidth="140.0" styleClass="nav-button" text="About Us" HBox.hgrow="NEVER">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  
+                  <!-- SPACER FOR CENTERING -->
+                  <Region HBox.hgrow="ALWAYS" />
+                  
+                  <!-- RIGHT SIDE CONTROLS -->
+                  <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                     <children>
+                        <!-- SEARCH BAR -->
+                        <TextField fx:id="searchBar" focusTraversable="false" maxWidth="300.0" minWidth="200.0" prefWidth="250.0" promptText="🔍 Search products..." styleClass="search-field" HBox.hgrow="NEVER">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </TextField>
+                        
+                        <!-- LOGIN BUTTON -->
+                        <Button fx:id="loginButton" maxWidth="150.0" minWidth="80.0" onAction="#loadLoginPage" prefHeight="35.0" prefWidth="120.0" styleClass="login-button" text="Login" HBox.hgrow="NEVER">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="12.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" top="15.0" />
+               </padding>
+            </HBox>
+            
+            <!-- CATEGORY BUTTONS ROW -->
+            <HBox alignment="CENTER" spacing="5.0" HBox.hgrow="ALWAYS">
+               <padding>
+                  <Insets bottom="15.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <children>
+                  <Button fx:id="clothesCategory" alignment="CENTER" maxHeight="50.0" maxWidth="Infinity" minHeight="50.0" mnemonicParsing="false" onAction="#loadClothesPage" prefHeight="50.0" styleClass="category-button" text="Clothes" userData="clothes" HBox.hgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button fx:id="shoeCategory" alignment="CENTER" maxHeight="50.0" maxWidth="Infinity" minHeight="50.0" mnemonicParsing="false" onAction="#loadShoesPage" prefHeight="50.0" styleClass="category-button" text="Shoes" userData="shoes" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="groceriesCategory" alignment="CENTER" maxHeight="50.0" maxWidth="Infinity" minHeight="50.0" mnemonicParsing="false" onAction="#loadGroceriesPage" prefHeight="50.0" styleClass="category-button" text="Groceries" userData="groceries" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="electronicCategory" alignment="CENTER" maxHeight="50.0" maxWidth="Infinity" minHeight="50.0" mnemonicParsing="false" onAction="#loadElectronicsPage" prefHeight="50.0" styleClass="category-button" text="Electronics" userData="electronics" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="stationaryCategory" alignment="CENTER" maxHeight="50.0" maxWidth="Infinity" minHeight="50.0" mnemonicParsing="false" onAction="#loadStationaryPage" prefHeight="50.0" styleClass="category-button" text="Stationary" userData="stationary" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="othersCategory" alignment="CENTER" maxHeight="50.0" maxWidth="Infinity" minHeight="50.0" mnemonicParsing="false" onAction="#loadOthersPage" prefHeight="50.0" styleClass="category-button" text="Others" userData="others" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <StackPane>
+         <!-- Main Content Area -->
+         <StackPane fx:id="contentArea" style="-fx-background-color: #ffffff;" styleClass="content-area" BorderPane.alignment="CENTER" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+            <padding>
+               <Insets top="10.0" />
+            </padding>
+         </StackPane>
+         
+         <!-- Floating Cart Button using icons.png -->
+         <Button fx:id="floatingCartButton" onAction="#openCart" prefHeight="60.0" prefWidth="60.0" styleClass="floating-cart-button" StackPane.alignment="BOTTOM_RIGHT">
+            <graphic>
+               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/icons.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <StackPane.margin>
+               <Insets bottom="20.0" right="20.0" />
+            </StackPane.margin>
+         </Button>
+      </StackPane>
+   </center>
+</BorderPane>

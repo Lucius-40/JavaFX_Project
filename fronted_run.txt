@@ -1,0 +1,12 @@
+# Navigate to OnS directory
+cd "E:\BUET\Java Semester Project\Online_Shop\OnS"
+
+# 1. Compile Java files
+javac -d bin --module-path "C:/Program Files/javafx-sdk-21.0.7/lib" --add-modules javafx.controls,javafx.fxml -cp "C:/Program Files/javafx-sdk-21.0.7/lib/*" src/HelloApplication.java src/frontend/controllers/HelloController.java
+
+# 2. Copy resources to correct locations
+xcopy /E /Y resources\fxml bin\fxml\
+xcopy /E /Y resources\images bin\images\
+
+# 3. Run the application
+java --module-path "C:/Program Files/javafx-sdk-21.0.7/lib" --add-modules javafx.controls,javafx.fxml -cp bin HelloApplication

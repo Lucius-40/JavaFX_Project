@@ -1,0 +1,44 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# VS Code
+.vscode/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# NetBeans
+nbproject/
+build/
+dist/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# OS/PC-specific
+.DS_Store
+Thumbs.db
+
+# Windows batch files
+*.bat
+
+# Mac
+*.DS_Store
+
+# Logs
+*.log
+
+# Other
+*.swp
+*.swo
+
+# Ignore data and bin folders if not needed in repo
+bin/
+data/

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane minHeight="500.0" minWidth="800.0" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.CartController">
+   <children>
+      <HBox alignment="CENTER_LEFT" spacing="10" layoutX="15.0" layoutY="15.0">
+         <padding>
+            <Insets top="15" right="20" bottom="10" left="20"/>
+         </padding>
+         <children>
+            <Button fx:id="cartBackButton" 
+                    text="← Back to Products" 
+                    onAction="#handleBackButton"
+                    styleClass="cart-back-button"
+                    style="-fx-background-color: #ffffff; -fx-text-fill: #1a237e;"/>
+         </children>
+      </HBox>
+      <Label layoutX="396.0" layoutY="25.0" prefHeight="54.0" prefWidth="150.0" text="Cart Page" styleClass="cart-header">
+         <font>
+            <Font name="Berlin Sans FB" size="30.0" />
+         </font>
+      </Label>
+      <ScrollPane fx:id="cartScrollPane" layoutX="23.0" layoutY="109.0" prefHeight="446.0" prefWidth="461.0" style="-fx-background-color: #ffffff;" />
+      <Label layoutX="491.0" layoutY="135.0" prefHeight="44.0" prefWidth="130.0" text="Number Of Products   : " />
+      <Label fx:id="numberOfProductsLabel" layoutX="632.0" layoutY="148.0" text="0" />
+      <Label layoutX="491.0" layoutY="166.0" prefHeight="44.0" prefWidth="130.0" text="Total Price                    :" />
+      <Label fx:id="totalPriceLabel" layoutX="632.0" layoutY="179.0" text="0" />
+      <TextArea fx:id="productListArea" layoutX="501.0" layoutY="210.0" prefHeight="202.0" prefWidth="364.0" style="-fx-background-color: #ffffff; -fx-text-fill: #222;" text="List of Products" />
+      <Button fx:id="payButton" layoutX="501.0" layoutY="436.0" maxHeight="30.0" maxWidth="275.0" minHeight="30.0" minWidth="275.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="275.0" style="-fx-background-color: #578FCA;" text="Proceed To Checkout">
+         <font>
+            <Font name="Arial Narrow" size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.GroceriesController">
+   <padding>
+      <Insets bottom="5.0" left="20.0" right="20.0" top="25.0" />
+   </padding>
+   
+   <!-- Compact Page Title -->
+   <!-- <Label text="🛒 Groceries Collection" style="-fx-font-size: 14px; -fx-text-fill: #333333;" /> -->
+   
+   <!-- Groceries Grid in ScrollPane with dark styled scrollbar -->
+   <ScrollPane fx:id="groceriesScrollPane" fitToWidth="true" fitToHeight="true" vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" 
+               styleClass="scroll-pane"
+               VBox.vgrow="ALWAYS">
+      <content>
+         <GridPane fx:id="groceriesGrid" hgap="15.0" vgap="15.0" alignment="CENTER">
+            <padding>
+               <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            </padding>
+         </GridPane>
+      </content>
+   </ScrollPane>
+</VBox>

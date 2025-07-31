@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane style="-fx-background-color: #ffffff;" styleClass="product-page-container" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.TemplateProductController">
+      
+  <!-- TOP: BACK BUTTON -->
+  <top>
+    <HBox alignment="CENTER_LEFT" spacing="10">
+      <padding>
+        <Insets bottom="10" left="20" right="20" top="15" />
+      </padding>
+      <children>
+        <Button fx:id="backButton" onAction="#handleBackButton" styleClass="back-button" text="← Back to Products" style="-fx-background-color: #ffffff; -fx-text-fill: #1a237e;" />
+      </children>
+    </HBox>
+  </top>
+  
+  <!-- CENTER: MAIN CONTENT -->
+  <center>
+    <HBox alignment="CENTER" spacing="40">
+      <padding>
+        <Insets bottom="30" left="30" right="30" top="10" />
+      </padding>
+      <children>
+        <!-- LEFT COLUMN -->
+        <VBox alignment="TOP_CENTER" spacing="20" styleClass="product-image-section">
+          <children>
+            <!-- Product Image -->
+            <ImageView fx:id="productImage" fitHeight="350" fitWidth="350" preserveRatio="true" styleClass="product-image">
+              <image>
+                <Image url="@../images/Dummy_Product.jpg" />
+              </image>
+            </ImageView>
+            
+            <!-- Product Info Cards -->
+            <HBox alignment="CENTER" spacing="15">
+              <!-- Stock Card -->
+              <VBox alignment="CENTER" spacing="5" style="-fx-background-color: #ffffff;" styleClass="info-card">
+                <children>
+                  <Label styleClass="info-label" text="STOCK AVAILABLE" />
+                  <Label fx:id="stockLabel" styleClass="info-value stock-value" text="43" />
+                </children>
+              </VBox>
+              
+              <!-- Category Card -->
+              <VBox alignment="CENTER" spacing="5" style="-fx-background-color: #ffffff;" styleClass="info-card">
+                <children>
+                  <Label styleClass="info-label" text="CATEGORY" />
+                  <Label fx:id="categoryLabel" styleClass="info-value category-value" text="Clothes" />
+                </children>
+              </VBox>
+            </HBox>
+          </children>
+        </VBox>
+
+        <!-- RIGHT COLUMN -->
+        <VBox alignment="TOP_LEFT" spacing="25" styleClass="product-details-section" HBox.hgrow="ALWAYS">
+          <children>
+            <!-- Product Title -->
+            <Label fx:id="titleLabel" styleClass="product-title" text="Product Title">
+              <font>
+                <Font name="Arial Rounded MT Bold" size="32" />
+              </font>
+            </Label>
+
+            <!-- Product Price -->
+            <HBox alignment="CENTER_LEFT" style="-fx-background-color: #ffffff;" styleClass="price-container">
+              <children>
+                <Label styleClass="price-label" text="Price: " />
+                <Label fx:id="priceLabel" styleClass="product-price" text="$$24.99">
+                  <font>
+                    <Font name="Arial Rounded MT Bold" size="26" />
+                  </font>
+                </Label>
+              </children>
+            </HBox>
+
+            <!-- Description -->
+            <VBox spacing="10" style="-fx-background-color: #ffffff;" styleClass="description-container">
+              <children>
+                <Label styleClass="section-title" text="PRODUCT DESCRIPTION" />
+                <TextArea fx:id="productDescription" editable="false" prefRowCount="6" styleClass="product-description" text="Product description goes here..." wrapText="true" style="-fx-background-color: #ffffff; -fx-text-fill: #222;" />
+              </children>
+            </VBox>
+
+            <!-- Quantity Selector -->
+            <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: #ffffff;" styleClass="quantity-section">
+              <children>
+                <Label styleClass="quantity-label" text="Quantity:" />
+                <Spinner fx:id="quantitySpinner" prefWidth="100" styleClass="quantity-spinner" />
+                <Label fx:id="stockWarningLabel" styleClass="stock-warning" text="Maximum stock: 43" />
+              </children>
+            </HBox>
+
+            <!-- Action Buttons -->
+            <HBox alignment="CENTER_LEFT" spacing="20" styleClass="action-buttons">
+              <children>
+                <Button fx:id="addToCartButton" onAction="#handleAddToCart" styleClass="primary-action-button" text="Add to Cart" style="-fx-background-color: #1976d2; -fx-text-fill: #ffffff;" />
+                <Button fx:id="seeCartButton" onAction="#handleSeeCart" styleClass="secondary-action-button" text="View Cart" style="-fx-background-color: #ffffff; -fx-text-fill: #1a237e;" />
+              </children>
+            </HBox>
+          </children>
+        </VBox>
+      </children>
+    </HBox>
+  </center>
+</BorderPane>

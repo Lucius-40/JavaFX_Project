@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="backend.admin.AdminController">
+   <top>
+      <VBox spacing="10" style="-fx-background-color: #2c3e50; -fx-padding: 20;">
+         <children>
+            <Label text="EZ Shop - Admin Panel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <HBox spacing="20" alignment="CENTER_LEFT">
+               <children>
+                  <Label fx:id="serverStatusLabel" text="🔴 Server Stopped" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                  <Label fx:id="connectedClientsLabel" text="Connected Clients: 0" style="-fx-font-size: 14px; -fx-text-fill: white;"/>
+                  <Button fx:id="startServerButton" text="Start Server" onAction="#startServer" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                  <Button fx:id="stopServerButton" text="Stop Server" onAction="#stopServer" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" disable="true"/>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   
+   <center>
+      <TabPane>
+         <tabs>
+            <!-- Product Management Tab -->
+            <Tab text="Product Management" closable="false">
+               <content>
+                  <VBox spacing="10">
+                     <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                     </padding>
+                     <children>
+                        <!-- Search and Filter Controls -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                           <children>
+                              <Label text="Search:" style="-fx-font-weight: bold;"/>
+                              <TextField fx:id="searchField" promptText="Search products..." prefWidth="200"/>
+                              <Label text="Category:" style="-fx-font-weight: bold;"/>
+                              <ComboBox fx:id="categoryFilter" prefWidth="150"/>
+                              <Button fx:id="refreshButton" text="🔄 Refresh" onAction="#loadProducts" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                           </children>
+                        </HBox>
+                        
+                        <!-- Product Table -->
+                        <TableView fx:id="productTable" VBox.vgrow="ALWAYS">
+                           <columns>
+                              <TableColumn fx:id="productIdColumn" text="ID" prefWidth="100"/>
+                              <TableColumn fx:id="productNameColumn" text="Product Name" prefWidth="200"/>
+                              <TableColumn fx:id="categoryColumn" text="Category" prefWidth="120"/>
+                              <TableColumn fx:id="priceColumn" text="Price" prefWidth="100"/>
+                              <TableColumn fx:id="stockColumn" text="Stock" prefWidth="100"/>
+                              <TableColumn fx:id="availableColumn" text="Available" prefWidth="100"/>
+                           </columns>
+                        </TableView>
+                        
+                        <!-- Action Buttons -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                           <children>
+                              <Button fx:id="addProductButton" text="➕ Add New Product" onAction="#addNewProduct" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                              <Button fx:id="updateStockButton" text="📦 Update Stock" onAction="#updateStock" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                              <Label text="💡 Tip: Red = Out of Stock, Yellow = Low Stock (Less than 50), Green = Good Stock" style="-fx-font-style: italic;"/>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+            
+            <!-- Order Management Tab -->
+            <Tab text="Order Management" closable="false">
+               <content>
+                  <VBox spacing="15">
+                     <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                     </padding>
+                     <children>
+                        <!-- Order Controls -->
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                           <children>
+                              <Label fx:id="orderCountLabel" text="Orders: 0" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                              <Button fx:id="refreshOrdersButton" text="🔄 Refresh Orders" onAction="#loadOrders" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                           </children>
+                        </HBox>
+                        
+                        <!-- Order Management Controls -->
+                        <VBox spacing="10" style="-fx-background-color: #f8f9fa; -fx-padding: 15; -fx-border-radius: 5; -fx-background-radius: 5;">
+                           <children>
+                              <Label text="📋 Order Management" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                              
+                              <HBox spacing="10" alignment="CENTER_LEFT">
+                                 <children>
+                                    <Label text="Select Order:" style="-fx-font-weight: bold;"/>
+                                    <ComboBox fx:id="orderSelector" prefWidth="300" promptText="Choose an order to manage..."/>
+                                 </children>
+                              </HBox>
+                              
+                              <HBox spacing="10" alignment="CENTER_LEFT">
+                                 <children>
+                                    <Button fx:id="proceedOrderButton" text="✅ Proceed Order" onAction="#proceedOrder" 
+                                            style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold;" 
+                                            disable="true"/>
+                                    <Button fx:id="removeOrderButton" text="❌ Remove Order" onAction="#removeOrder" 
+                                            style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold;" 
+                                            disable="true"/>
+                                 </children>
+                              </HBox>
+                              
+                              <Label text="💡 Proceeded orders are saved to 'proceeded.txt' and removed orders to 'removed.txt'" 
+                                     style="-fx-font-style: italic; -fx-text-fill: #6c757d;"/>
+                           </children>
+                        </VBox>
+                        
+                        <!-- Orders Display -->
+                        <TextArea fx:id="ordersTextArea" editable="false" VBox.vgrow="ALWAYS" 
+                                  style="-fx-font-family: 'Courier New'; -fx-font-size: 12px;"/>
+                        
+                        <Label text="📋 All pending orders are shown above. Use the management controls to proceed or remove orders." 
+                               style="-fx-font-style: italic; -fx-text-fill: #7f8c8d;"/>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

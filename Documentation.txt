@@ -1,0 +1,257 @@
+Networking Part :
+
+==============================
+EZ Shop Networking Module Documentation
+==============================
+
+This documentation describes the design and implementation of the networking layer for the EZ Shop project, focusing on client-server communication, message handling, and inventory synchronization.
+
+1. Message Serialization
+
+The `Message` class (backend.network.Message) is a serializable data structure used for all communication between client and server. Each message contains:
+  - `type`: A string indicating the message type (e.g., INVENTORY_UPDATE, PURCHASE, LOGIN, etc.)
+  - `data`: The payload, which can be any object (e.g., product list, user data, purchase info)
+  - `timestamp`: The time the message was created
+This design allows flexible, type-safe communication and easy extension for new message types.
+
+2. NetworkClient: Client-Side Networking
+
+The `NetworkClient` class manages the client-side socket connection to the server. It is implemented as a singleton to ensure only one active connection per client. Key features:
+  - Connection management (`connect`, `disconnect`, `isConnected`)
+  - Object streams for sending/receiving serialized `Message` objects
+  - Threaded design: uses `NetworkReader` and `NetworkWriter` threads for asynchronous communication
+  - Outgoing message queue (BlockingQueue) for thread-safe sending
+  - Inventory caching and conversion from server-side product objects to client-side `Product` instances
+  - Listener interfaces for authentication, purchase, and user data events
+  - Centralized message processing via `processServerMessage`, which uses reflection to extract type/data and dispatches to appropriate handlers
+
+3. NetworkThreads: Asynchronous Communication
+
+`NetworkReader` and `NetworkWriter` are dedicated threads for reading and writing messages:
+  - `NetworkReader`: Continuously reads objects from the input stream, reconstructs `Message` objects, and passes them to `NetworkClient` for processing
+  - `NetworkWriter`: Waits for messages in the outgoing queue, serializes and sends them to the server
+Both threads handle connection state, error recovery, and clean shutdown.
+
+4. NetworkService: Centralized Inventory and Observers
+
+`NetworkService` acts as a facade and state manager for networking operations. It:
+  - Wraps `NetworkClient` and exposes high-level methods for connecting, authentication, inventory requests, purchases, and user data
+  - Maintains a centralized, thread-safe global inventory (`globalInventory`) for use throughout the client application
+  - Supports observer pattern: UI components or other modules can register observers (Runnable) to be notified when inventory updates
+  - Ensures all inventory updates are synchronized and dispatched on the JavaFX UI thread
+  - Provides listener registration for authentication, purchase, and user data events
+
+5. Inventory Synchronization and Update Flow
+
+When the client connects to the server:
+  - The client requests the inventory
+  - The server responds with inventory messages (e.g., INVENTORY_UPDATE)
+  - The client processes these messages, converts server-side products to client-side, and updates the global inventory
+  - All registered observers are notified of inventory changes, allowing the UI to refresh automatically
+
+6. Extensibility and Error Handling
+
+The networking layer is designed for extensibility:
+  - New message types can be added by extending the `Message` type and updating `processServerMessage`
+  - Listener interfaces allow modular handling of authentication, purchases, and user data
+  - Error handling is robust, with clear logging and recovery for connection issues, serialization errors, and observer failures
+
+7. Example Usage
+
+To connect and synchronize inventory:
+  - Use `NetworkService.getInstance().connectToServer(host, port)`
+  - Register inventory observers with `addInventoryObserver`
+  - Access the latest inventory via `getGlobalInventory()`
+  - Send purchases and orders via `sendPurchase` and `sendCompleteOrder`
+
+
+==============================
+EZ Shop Model Layer 
+==============================
+
+This section describes the core model classes for EZ Shop: Product, Inventory, and Cart. These classes represent the business logic and data structures for products, inventory management, and shopping cart functionality.
+
+1. Product Class
+
+The `Product` class (backend.models.Product) models a single product in the shop. It is serializable for network and file operations. Key fields:
+  - `id`: Unique product identifier
+  - `name`: Product name
+  - `category`: Product category (e.g., Clothes, Electronics)
+  - `price`: Product price
+  - `description`: Text description
+  - `imagePath`: Path to product image
+  - `stockQuantity`: Number of items in stock
+  - `isAvailable`: Boolean flag for availability
+
+Main features:
+  - Constructor accepts a string array and description, parsing all fields
+  - Getters for all fields
+  - Stock management: `setStockQuantity`, `setStock`, `decreaseStock`, and `needsRestocking` methods
+  - Availability is automatically updated when stock changes
+  - `toString` method for easy display
+
+2. Inventory Class
+
+The `Inventory` class (backend.models.Inventory) manages the collection of all products. It is implemented with static methods and fields, acting as a singleton for global inventory state.
+
+Key responsibilities:
+  - Load products from a file (`loadFromFile`), parsing product data and descriptions
+  - Save products to file (`saveToFile`), ensuring persistence of stock and availability
+  - Get products by category, ID, or name
+  - Update stock for a product (`updateProductStock`), with automatic file saving and availability update
+  - Thread-safe operations for stock updates and file saving
+  - Internal management of product descriptions
+
+Design notes:
+  - Products are stored in a static list
+  - File paths for products and descriptions are configurable
+  - All file operations are robust, with error handling and logging
+
+3. Cart Class
+
+The `Cart` class (backend.models.Cart) models a user's shopping cart. It is implemented as a singleton, ensuring one cart per user session.
+
+Main features:
+  - Stores items as a map from product ID to `CartItem` (an inner class)
+  - `CartItem` holds a reference to the product, quantity, and subtotal
+  - Methods to add, remove, and update items in the cart
+  - Calculates total amount automatically whenever items change
+  - Provides a list of all cart items for display or checkout
+  - Can clear the cart for a new session
+
+Design notes:
+  - Thread-safe singleton access (`getInstance`)
+  - Subtotal and total calculations are always up-to-date
+  - Cart operations are robust and handle edge cases (e.g., updating quantity, removing items)
+
+4. Model Layer Interactions
+
+  - The `Inventory` class provides product data for browsing and purchasing
+  - The `Cart` class uses `Product` instances to track items selected by the user
+  - Stock updates in `Inventory` are reflected in product availability and can trigger UI updates
+  - All model classes are serializable, supporting network and file operations
+
+
+==============================
+EZ Shop Frontend Controller 
+==============================
+
+This section describes the main frontend controllers for EZ Shop, focusing on how the UI interacts with the model and networking layers to provide a dynamic shopping experience.
+
+1. HelloController (Main Navigation & Home)
+
+The `HelloController` manages the main navigation and landing page of the EZ Shop application. Key responsibilities:
+  - Handles navigation between major sections (Home, Collections, About, Login, Cart, and all product categories)
+  - Uses JavaFX animations (fade, scale, slide) for smooth scene and content transitions
+  - Loads FXML views dynamically and applies stylesheets for consistent UI appearance
+  - Manages active category highlighting and hover/click effects for buttons
+  - Integrates with the networking layer to observe real-time inventory updates and refresh UI accordingly
+  - Implements search functionality to find products and open their detail pages
+  - Handles authentication state, showing login/logout dialogs and updating UI elements based on user session
+  - Ensures only authenticated users can access the cart, prompting login if needed
+
+Design notes:
+  - Uses JavaFX's Platform.runLater for thread-safe UI updates
+  - All navigation and page loads are robust, with error handling and user feedback via alerts
+  - Observer pattern is used to refresh the UI when inventory changes
+
+2. CLothes (Category Page)
+
+The `ClothesController` manages the display of products in the "Clothes" category. Key responsibilities:
+  - Loads product data from the centralized inventory cache (via NetworkService)
+  - Dynamically builds a grid of product cards, each showing image, name, price, stock, and availability
+  - Adapts grid layout to window size, recalculating columns and spacing as needed
+  - Applies real-time stock and availability indicators with color coding and opacity changes
+  - Handles mouse hover and click events for product cards, including out-of-stock alerts
+  - Opens detailed product pages when a product is clicked
+  - Observes inventory updates and refreshes the grid automatically
+  - Cleans up observers when the scene changes to prevent memory leaks
+
+Design notes:
+  - Uses JavaFX's Platform.runLater for UI updates and scroll position preservation
+  - Product conversion via reflection ensures compatibility with server-side objects
+  - All UI elements are styled for clarity and user feedback
+
+3. Frontend-Backend Integration
+
+  - Controllers interact with the model layer (`Product`, `Inventory`, `Cart`) for data and business logic
+  - All product and inventory data is synchronized with the server via the networking layer
+  - UI updates are triggered by observer notifications, ensuring real-time feedback for users
+  - Authentication and session management are handled in coordination with backend models and network events
+
+This controller layer provides a responsive, interactive, and maintainable frontend for EZ Shop, supporting seamless navigation, dynamic product display, and robust user interactions.
+
+
+Other category pages causes work the same way .
+
+
+
+The fxml files are added to add an interactive UI for the users and customers of the shop .
+
+==============================
+EZ Shop Inventory Admin Panel Documentation
+==============================
+
+This section provides a comprehensive overview of the Inventory Admin Panel for EZ Shop, describing its features, workflow, and integration with the backend.
+
+1. Overview
+
+The Inventory Admin Panel is a JavaFX-based desktop application that allows shop administrators to manage products, stock levels, and customer orders in real time. It provides a graphical interface for viewing, searching, filtering, and updating inventory, as well as processing and removing customer orders.
+
+2. Main Features
+
+- **Product Management**: View all products in a sortable table, search by name or ID, filter by category, update stock quantities, and add new products with descriptions and images.
+- **Order Management**: View all pending orders, select orders to proceed or remove, and track order status. Proceeded and removed orders are logged to separate files for auditing.
+- **Server Control**: Start and stop the backend server directly from the panel, monitor server status, and view the number of connected clients.
+- **Real-Time Synchronization**: All inventory changes are immediately saved to disk and broadcasted to connected clients, ensuring up-to-date product data across the system.
+- **Auto-Refresh**: The panel automatically refreshes product and order data every 30 seconds to reflect external changes.
+
+3. Product Management Workflow
+
+- **Viewing Products**: Products are loaded from `products.txt` and displayed in a table with columns for ID, name, category, price, stock, and availability. Stock levels are color-coded (red for out of stock, yellow for low stock, green for sufficient stock).
+- **Searching and Filtering**: Use the search field to find products by name or ID. Filter products by category using the dropdown.
+- **Updating Stock**: Select a product and click "Update Stock" to set a new quantity. The change is saved to `products.txt` and broadcasted to all clients if the server is running.
+- **Adding Products**: Click "Add New Product" to open a form. Enter product details, including description and availability. The new product is appended to `products.txt`, and its description is saved to `descriptions.txt`. The inventory is reloaded and updates are broadcasted.
+
+4. Order Management Workflow
+
+- **Viewing Orders**: Orders are loaded from `orders.txt` and displayed in a text area. Each order includes customer info, items, quantities, and total price.
+- **Selecting Orders**: Use the dropdown to select an order for management. The panel enables "Proceed" and "Remove" buttons when an order is selected.
+- **Proceeding Orders**: Clicking "Proceed Order" moves the order to `proceeded.txt` with a timestamp and removes it from `orders.txt`.
+- **Removing Orders**: Clicking "Remove Order" moves the order to `removed.txt` with a timestamp and removes it from `orders.txt`.
+- **Order Logging**: All actions are logged for traceability. The panel refreshes the order list after each operation.
+
+5. Server Control and Status
+
+- **Starting the Server**: Click "Start Server" to launch the backend server. The server loads inventory and user data, listens for client connections, and starts a file watcher for real-time updates.
+- **Stopping the Server**: Click "Stop Server" to gracefully shut down the server and disconnect all clients.
+- **Status Indicators**: The panel displays server status (running/stopped) and the number of connected clients.
+
+6. Integration and Synchronization
+
+- **Backend Integration**: The admin panel interacts with backend classes (`Inventory`, `Product`, `ShopServer`) to manage data and broadcast updates.
+- **File Operations**: All changes to products and orders are persisted to disk. The server uses a file watcher to detect external changes and reload inventory as needed.
+- **Thread Safety**: Inventory operations use locks to ensure thread-safe access and updates.
+
+7. Error Handling and Validation
+
+- **Input Validation**: The panel validates all user inputs (e.g., non-negative stock, unique product IDs, valid numbers).
+- **Robust Error Handling**: All file and network operations are wrapped in try-catch blocks, with user-friendly alerts for errors.
+- **Logging**: Actions and errors are logged to the console for debugging and auditing.
+
+8. Example Usage
+
+- To update stock: Select a product, click "Update Stock", enter the new quantity, and confirm.
+- To add a product: Click "Add New Product", fill in the form, and submit.
+- To proceed an order: Select an order, click "Proceed Order", and confirm.
+- To remove an order: Select an order, click "Remove Order", and confirm.
+- To start/stop the server: Use the buttons at the top of the panel.
+
+9. Extensibility
+
+- The admin panel is designed for easy extension. New product fields, order actions, or server controls can be added with minimal changes to the codebase.
+- The UI is modular, with clear separation between product and order management.
+
+This Inventory Admin Panel provides a powerful, user-friendly interface for managing EZ Shop's inventory and orders, ensuring efficient operations and real-time synchronization across all clients.
+
+

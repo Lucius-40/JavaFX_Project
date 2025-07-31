@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.controllers.ProductsInputController">
+   <children>
+      <Label layoutX="255.0" layoutY="60.0" text="Select Category:"/>
+      <ChoiceBox fx:id="categoryChoiceBox" prefHeight="26.0" prefWidth="287.0"/>
+      <Label layoutX="225.0" layoutY="130.0" text="Select Product:" />
+      <ComboBox fx:id="productComboBox" layoutX="225.0" layoutY="160.0" prefHeight="26.0" prefWidth="287.0" />
+      <Button layoutX="82.0" layoutY="347.0" mnemonicParsing="false" text="Button" />
+      <Button fx:id="submitButton" layoutX="225.0" layoutY="220.0" mnemonicParsing="false" onAction="#handleSubmit" text="Submit" />
+      <Button fx:id="clearButton" layoutX="325.0" layoutY="220.0" mnemonicParsing="false" onAction="#handleClear" text="Clear" />
+      <Label fx:id="resultLabel" layoutX="225.0" layoutY="260.0" text="Selected: " />
+   </children>
+</AnchorPane>
